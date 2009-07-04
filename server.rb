@@ -18,13 +18,22 @@ end
 post '/' do
   push = JSON.parse(params[:payload] || '')
   run_later do
-    create_or_update_repo
+    create_or_update_website_repo
+    create_or_update_flapjack_repo
     build_site
   end
   "Generating docs..."
 end
 
-def create_or_update_repo
+def create_or_update_website_repo
+  if File.exists?(WEBSITE_SOURCE_DIR)
+    system("cd #{WEBSITE_SOURCE_DIR}; git pull")
+  else
+    system("cd #{File.join(WEBSITE_SOURCE_DIR, '..')} ; git clone git://github.com/auxesis/flapjack-project.com.git #{WEBSITE_SOURCE_DIR}")
+  end
+end
+
+def create_or_update_flapjack_repo
   if File.exists?(FLAPJACK_CHECKOUT_DIR)
     system("cd #{FLAPJACK_CHECKOUT_DIR}; git pull")
   else
