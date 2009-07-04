@@ -42,6 +42,6 @@ def create_or_update_flapjack_repo
 end
 
 def build_site
-  system("cd #{WEBSITE_SOURCE_DIR}; rake build ")
+  system("cd #{WEBSITE_SOURCE_DIR}; FLAPJACK_SOURCE=#{FLAPJACK_CHECKOUT_DIR} rake build")
   system("cd #{WEBSITE_SOURCE_DIR}; rake local_deploy")
 end
