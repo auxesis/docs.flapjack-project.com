@@ -1,0 +1,18 @@
+docs.flapjack-project.com
+=========================
+
+Builder for flapjack-project.com website. 
+
+Triggered as a GitHub Post-Receive Hook, it will checkout
+the latest copy of the Flapjack source code, generate new HTML
+for the flapjack-project.com website, and move it in place.
+
+Configuring
+-----------
+
+1. Set up this directory as an Apache VirtualHost with Passenger. 
+2. Run `rake deps` to freeze dependencies.
+3. Edit WEBSITE_DIR and CHECKOUT_DIR in server.rb to taste.
+4. Run `ruby test-post.rb` to do a test post.
+
+
