@@ -1,12 +1,15 @@
 #!/usr/bin/env ruby
+
 require 'rubygems'
+Gem.clear_paths
 Gem.path << File.expand_path(File.join(File.dirname(__FILE__), 'gems'))
+
 require 'sinatra'
 require 'run_later'
 require 'yajl/json_gem'
 
-WEBSITE_DIR = "/home/auxesis/code/flapjack-project.com"
-CHECKOUT_DIR = "/home/auxesis/code/flapjack"
+WEBSITE_SOURCE_DIR = "/home/auxesis/code/flapjack-project.com"
+FLAPJACK_CHECKOUT_DIR = "/home/auxesis/code/flapjack"
 
 get '/' do 
   "POST to this URL to generate docs!"
@@ -22,14 +25,14 @@ post '/' do
 end
 
 def create_or_update_repo
-  if File.exists?(CHECKOUT_DIR)
-    system("cd #{CHECKOUT_DIR}; git pull")
+  if File.exists?(FLAPJACK_CHECKOUT_DIR)
+    system("cd #{FLAPJACK_CHECKOUT_DIR}; git pull")
   else
-    system("cd #{File.join(CHECKOUT_DIR, '..')} ; git clone git://github.com/auxesis/flapjack.git #{CHECKOUT_DIR}")
+    system("cd #{File.join(FLAPJACK_CHECKOUT_DIR, '..')} ; git clone git://github.com/auxesis/flapjack.git #{FLAPJACK_CHECKOUT_DIR}")
   end
 end
 
 def build_site
-  system("cd #{WEBSITE_DIR}; rake build ")
-  system("cd #{WEBSITE_DIR}; rake local_deploy")
+  system("cd #{WEBSITE_SOURCE_DIR}; rake build ")
+  system("cd #{WEBSITE_SOURCE_DIR}; rake local_deploy")
 end
